@@ -183,8 +183,8 @@ function DayDrawer({
             {segments.map((segment, index) => {
               const category = categoryOf(segment.status, segment.kind);
               const details = showFullDetails ? rowById.get(String(segment.bookingId))?.details : undefined;
-              return (
-                <li key={index} className="rounded-xl border border-[#E7E5E4] p-3">
+              const body = (
+                <>
                   <div className="flex items-start justify-between gap-2">
                     <p className="text-sm font-medium text-[#1C1917]">{segment.label}</p>
                     <Badge tone={category}>{CATEGORY_LABEL[category]}</Badge>
@@ -213,20 +213,36 @@ function DayDrawer({
                       )}
                     </dl>
                   )}
+                </>
+              );
+              return (
+                <li key={index}>
+                  {showFullDetails ? (
+                    <Link
+                      href={`/rep/booking/${segment.bookingId}`}
+                      className="block rounded-xl border border-[#E7E5E4] p-3 transition hover:bg-[#FAFAF9]"
+                    >
+                      {body}
+                    </Link>
+                  ) : (
+                    <div className="rounded-xl border border-[#E7E5E4] p-3">{body}</div>
+                  )}
                 </li>
               );
             })}
           </ul>
         )}
 
-        <div className="mt-5">
-          <Link
-            href={`/request?date=${dateStr}`}
-            className="inline-flex min-h-[44px] w-full items-center justify-center rounded-xl bg-[#0F766E] px-4 text-sm font-medium text-white transition hover:bg-[#0d6a63]"
-          >
-            Request this date
-          </Link>
-        </div>
+        {!showFullDetails && (
+          <div className="mt-5">
+            <Link
+              href={`/request?date=${dateStr}`}
+              className="inline-flex min-h-[44px] w-full items-center justify-center rounded-xl bg-[#0F766E] px-4 text-sm font-medium text-white transition hover:bg-[#0d6a63]"
+            >
+              Request this date
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
 import type { BookingKind, BookingStatus } from "@/lib/types";
 
-export interface RepRow {
+/** The minimal shape the action modals need (queue rows and the detail page both satisfy it). */
+export interface ActionBooking {
   id: string;
-  kind: BookingKind;
   status: BookingStatus;
+  kind: BookingKind;
   startsAt: string;
   endsAt: string;
   requesterName: string | null;
@@ -12,6 +13,9 @@ export interface RepRow {
   phone: string | null;
   remarks: string | null;
   ownerBlock: string;
+}
+
+export interface RepRow extends ActionBooking {
   amountCollected: string | null;
   requestedAt: string;
   requestedAgo: string;
@@ -19,6 +23,7 @@ export interface RepRow {
   decidedAgo: string | null;
   decidedByBlock: string | null;
   decisionReason: string | null;
+  message: string | null;
 }
 
 export type RepBlockFilter = "all" | "mine";

@@ -9,7 +9,7 @@ import {
   confirmBookingAction,
   type ConflictBooking,
 } from "@/app/rep/actions";
-import type { RepRow } from "@/app/rep/types";
+import type { ActionBooking } from "@/app/rep/types";
 import { parseAmount } from "@/lib/money";
 import { durationLabel, fmtRange, istLocalToUtc, utcToIstLocal } from "@/lib/time";
 import { RejectForm } from "./RejectForm";
@@ -22,7 +22,7 @@ export function ConfirmBookingModal({
   onClose,
   onSuccess,
 }: {
-  booking: RepRow;
+  booking: ActionBooking;
   onClose: () => void;
   onSuccess: (message: string) => void;
 }) {

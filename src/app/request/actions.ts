@@ -23,17 +23,20 @@ export interface AvailabilityResult {
 export async function checkAvailability(
   startUtc: string,
   endUtc: string,
+  excludeId?: string,
 ): Promise<AvailabilityResult> {
   const start = new Date(startUtc);
   const end = new Date(endUtc);
   if (!(start.getTime() < end.getTime())) return { confirmed: [], pending: [] };
 
+  const exclude = excludeId ?? null;
   const rows = await query<{ id: string; status: BookingStatus; starts_at: Date; ends_at: Date }>`
     select id, status, starts_at, ends_at
     from bookings
     where status in ('confirmed', 'pending')
       and starts_at < ${end.toISOString()}
       and ends_at > ${start.toISOString()}
+      and (${exclude}::uuid is null or id <> ${exclude}::uuid)
     order by starts_at asc
   `;
 

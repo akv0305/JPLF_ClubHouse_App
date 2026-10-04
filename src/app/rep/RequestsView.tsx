@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, ChevronDown, Copy, Inbox, X } from "lucide-react";
+import { Check, ChevronDown, Copy, Inbox } from "lucide-react";
 import { ConfirmBookingModal } from "@/components/ConfirmBookingModal";
+import { CopyMessageButton } from "@/components/CopyMessageButton";
 import { RejectBookingModal } from "@/components/RejectBookingModal";
+import { Toast } from "@/components/Toast";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { copyToClipboard } from "@/lib/clipboard";
 import { formatINR } from "@/lib/money";
 import { durationLabel, fmtRange } from "@/lib/time";
 import type { BookingStatus } from "@/lib/types";
@@ -33,13 +36,10 @@ function PhoneLink({ phone }: { phone: string }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
-    try {
-      await navigator.clipboard.writeText(phone);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch {
-      setCopied(false);
-    }
+    const ok = await copyToClipboard(phone);
+    if (!ok) return;
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
   }
 
   return (
@@ -153,25 +153,11 @@ function DecisionCard({ row }: { row: RepRow }) {
         Decided {row.decidedAgo}
         {row.decidedByBlock ? ` by ${row.decidedByBlock} Block` : ""}
       </p>
-    </div>
-  );
-}
-
-function Toast({ message, onDismiss }: { message: string; onDismiss: () => void }) {
-  return (
-    <div
-      role="status"
-      className="fixed inset-x-4 bottom-4 z-[60] flex items-center justify-between gap-3 rounded-xl bg-[#0F766E] px-4 py-3 text-sm text-white shadow-lg sm:inset-x-auto sm:right-4 sm:w-80"
-    >
-      <span>{message}</span>
-      <button
-        type="button"
-        onClick={onDismiss}
-        aria-label="Dismiss"
-        className="rounded p-0.5 transition hover:bg-white/20"
-      >
-        <X className="h-4 w-4" />
-      </button>
+      {row.status === "confirmed" && row.message && (
+        <div className="mt-2">
+          <CopyMessageButton text={row.message} className="w-full sm:w-auto" />
+        </div>
+      )}
     </div>
   );
 }

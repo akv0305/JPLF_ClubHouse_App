@@ -2,14 +2,14 @@
 
 import { Modal } from "@/components/ui/Modal";
 import { RejectForm } from "./RejectForm";
-import type { RepRow } from "@/app/rep/types";
+import type { ActionBooking } from "@/app/rep/types";
 
 export function RejectBookingModal({
   booking,
   onClose,
   onSuccess,
 }: {
-  booking: RepRow;
+  booking: ActionBooking;
   onClose: () => void;
   onSuccess: (message: string) => void;
 }) {

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Field } from "@/components/ui/Field";
 import { rejectBookingAction } from "@/app/rep/actions";
-import type { RepRow } from "@/app/rep/types";
+import type { ActionBooking } from "@/app/rep/types";
 
 const inputClass =
   "w-full min-h-[44px] rounded-xl border border-[#E7E5E4] bg-white px-3 text-sm text-[#1C1917] outline-none transition focus:border-[#0F766E] focus:ring-1 focus:ring-[#0F766E]";
@@ -14,7 +14,7 @@ export function RejectForm({
   onSuccess,
   onCancel,
 }: {
-  booking: RepRow;
+  booking: ActionBooking;
   onSuccess: (message: string) => void;
   onCancel: () => void;
 }) {

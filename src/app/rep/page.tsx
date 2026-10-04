@@ -1,6 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 import { requireBlock } from "@/lib/auth";
 import { query } from "@/lib/db";
+import { buildBookingMessage } from "@/lib/message";
 import type { Booking } from "@/lib/types";
 import { FilterBar } from "./FilterBar";
 import { RequestsView } from "./RequestsView";
@@ -15,12 +16,27 @@ interface RepPageProps {
 function toRepRow(booking: Booking): RepRow {
   const requestedAt = new Date(booking.requested_at).toISOString();
   const decidedAt = booking.decided_at ? new Date(booking.decided_at).toISOString() : null;
+  const startsAt = new Date(booking.starts_at).toISOString();
+  const endsAt = new Date(booking.ends_at).toISOString();
+  const message =
+    booking.status === "confirmed"
+      ? buildBookingMessage({
+          kind: booking.kind,
+          status: booking.status,
+          startsAt,
+          endsAt,
+          requesterName: booking.requester_name,
+          block: booking.block,
+          flatNo: booking.flat_no,
+          amountCollected: booking.amount_collected,
+        })
+      : null;
   return {
     id: String(booking.id),
     kind: booking.kind,
     status: booking.status,
-    startsAt: new Date(booking.starts_at).toISOString(),
-    endsAt: new Date(booking.ends_at).toISOString(),
+    startsAt,
+    endsAt,
     requesterName: booking.requester_name,
     block: booking.block,
     flatNo: booking.flat_no,
@@ -34,6 +50,7 @@ function toRepRow(booking: Booking): RepRow {
     decidedAgo: decidedAt ? formatDistanceToNow(new Date(decidedAt), { addSuffix: true }) : null,
     decidedByBlock: booking.decided_by_block,
     decisionReason: booking.decision_reason,
+    message,
   };
 }
 
