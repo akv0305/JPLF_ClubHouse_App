@@ -68,6 +68,9 @@ export function parseDbError(err: unknown): DbErrorInfo {
     };
   }
 
+  if (raw.includes("BAD_RANGE")) {
+    return { code: "BAD_RANGE", friendlyMessage: "The end time must be after the start time." };
+  }
   if (raw.includes("BAD_AMOUNT")) {
     return { code: "BAD_AMOUNT", friendlyMessage: "Enter an amount greater than zero." };
   }
@@ -95,4 +98,9 @@ export function parseDbError(err: unknown): DbErrorInfo {
   }
 
   return { code: code || "UNKNOWN", friendlyMessage: GENERIC };
+}
+
+/** Alias for {@link parseDbError}, for errors raised by the booking Postgres functions. */
+export function parseRpcError(err: unknown): DbErrorInfo {
+  return parseDbError(err);
 }

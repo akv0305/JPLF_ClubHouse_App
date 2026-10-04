@@ -2,6 +2,9 @@ export const BLOCKS = ["C1", "C2", "D", "E"] as const;
 
 export type BlockCode = (typeof BLOCKS)[number];
 
+/** Canonical display order — always E, C2, D, C1. Never sort block codes alphabetically. */
+export const BLOCK_DISPLAY_ORDER = ["E", "C2", "D", "C1"] as const;
+
 export type BookingKind = "resident" | "outsider" | "blackout";
 
 export type BookingStatus = "pending" | "confirmed" | "rejected" | "cancelled";

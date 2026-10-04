@@ -14,7 +14,11 @@ export function Field({ label, htmlFor, error, hint, children }: FieldProps) {
       </label>
       {children}
       {hint && !error && <p className="text-xs text-[#78716C]">{hint}</p>}
-      {error && <p className="text-xs text-[#B91C1C]">{error}</p>}
+      {error && (
+        <p role="alert" className="text-xs text-[#B91C1C]">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
