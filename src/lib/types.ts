@@ -19,6 +19,12 @@ export interface Block {
   password_changed_at: string | null;
 }
 
+/** Internal server-side shape: the full blocks row, including hashes. Never send to the client. */
+export interface BlockRow extends Block {
+  password_hash: string;
+  block_code_hash: string;
+}
+
 export interface Booking {
   id: string;
   kind: BookingKind;
