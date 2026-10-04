@@ -1,0 +1,28 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+*.log
+npm-debug.log*
+
+# env files
+.env
+.env*.local
+
+# local server/credential notes
+JPLF ClubHouse Server Det.txt
+
+# netlify
+.netlify
+
+# typescript
+*.tsbuildinfo
