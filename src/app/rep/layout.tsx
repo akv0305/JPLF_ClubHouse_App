@@ -8,6 +8,7 @@ const NAV = [
   { href: "/rep/calendar", label: "Calendar" },
   { href: "/rep/new", label: "New Booking" },
   { href: "/rep/profile", label: "Block Profile" },
+  { href: "/rep/export", label: "Export" },
   { href: "/rep/password", label: "Password" },
 ];
 

@@ -29,7 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
         <footer className="mx-auto w-full max-w-5xl px-4 py-8">
           <p className="text-sm text-[#78716C]">
-            Bookings are confirmed by your block representative.
+            Bookings are confirmed by your block representative.{" "}
+            <Link href="/contacts" className="text-[#0F766E] hover:underline">
+              Block contacts
+            </Link>
           </p>
         </footer>
       </body>

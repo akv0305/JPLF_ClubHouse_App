@@ -24,7 +24,7 @@ function Chip({
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`inline-flex min-h-[36px] items-center rounded-full border px-3 text-xs font-medium transition ${
+      className={`inline-flex min-h-[44px] items-center rounded-full border px-3 text-xs font-medium transition ${
         active
           ? "border-[#0F766E] bg-[#0F766E] text-white"
           : "border-[#E7E5E4] bg-white text-[#78716C] hover:text-[#1C1917]"

@@ -273,6 +273,7 @@ export function Calendar({
 
   const days = useMemo(() => monthDays(month), [month]);
   const lead = weekdayMon(`${month}-01`);
+  const monthHasBookings = days.some((day) => (expanded.get(day)?.length ?? 0) > 0);
 
   const agendaDays = useMemo(() => {
     const max = addDaysStr(today, 60);
@@ -353,6 +354,9 @@ export function Calendar({
             );
           })}
         </div>
+        {!monthHasBookings && (
+          <p className="mt-3 text-center text-sm text-[#78716C]">No bookings this month.</p>
+        )}
       </div>
 
       <div className="mt-4 sm:hidden">

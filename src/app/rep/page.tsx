@@ -90,6 +90,7 @@ export default async function RepRequestsPage({ searchParams }: RepPageProps) {
           pending={pendingRaw.map(toRepRow)}
           decisions={decisionsRaw.map(toRepRow)}
           myBlock={myBlock}
+          searching={q !== ""}
         />
       </div>
     </div>

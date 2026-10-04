@@ -51,9 +51,9 @@ function PhoneLink({ phone }: { phone: string }) {
         type="button"
         onClick={copy}
         aria-label="Copy phone number"
-        className="rounded p-0.5 text-[#78716C] transition hover:text-[#0F766E]"
+        className="inline-flex h-11 w-11 items-center justify-center rounded-lg text-[#78716C] transition hover:bg-[#FAFAF9] hover:text-[#0F766E]"
       >
-        {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+        {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
       </button>
     </span>
   );
@@ -166,10 +166,12 @@ export function RequestsView({
   pending,
   decisions,
   myBlock,
+  searching,
 }: {
   pending: RepRow[];
   decisions: RepRow[];
   myBlock: string;
+  searching: boolean;
 }) {
   const [active, setActive] = useState<{ booking: RepRow; mode: "confirm" | "reject" } | null>(null);
   const [toast, setToast] = useState<string | null>(null);
@@ -196,8 +198,12 @@ export function RequestsView({
           {pending.length === 0 ? (
             <EmptyState
               icon={Inbox}
-              title="No pending requests"
-              description="New requests will appear here."
+              title={searching ? "No results for that search" : "Nothing awaiting your action"}
+              description={
+                searching
+                  ? "Try a different name, flat or phone number."
+                  : "New requests will appear here."
+              }
             />
           ) : (
             <div className="space-y-3">
