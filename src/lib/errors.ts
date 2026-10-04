@@ -22,6 +22,11 @@ function rawMessage(err: unknown): string {
   return "";
 }
 
+function normalizeTimestamp(value: string): string {
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? value : parsed.toISOString();
+}
+
 function pgCode(err: unknown): string {
   if (err && typeof err === "object" && "code" in err) {
     return String((err as { code: unknown }).code ?? "");
@@ -34,9 +39,15 @@ export function parseDbError(err: unknown): DbErrorInfo {
   const raw = rawMessage(err);
   const code = pgCode(err);
 
-  const slot = raw.match(/SLOT_CONFLICT:([^|]+)\|([^|]+)\|([^|\s]+)/);
+  // Postgres formats timestamptz with a space ("2026-11-12 17:30:00+00"), so the
+  // window parts may contain spaces — only stop at a pipe or newline.
+  const slot = raw.match(/SLOT_CONFLICT:([^|]+)\|([^|]+)\|([^|\r\n]+)/);
   if (slot) {
-    const conflict: DbConflict = { id: slot[1].trim(), startsAt: slot[2].trim(), endsAt: slot[3].trim() };
+    const conflict: DbConflict = {
+      id: slot[1].trim(),
+      startsAt: normalizeTimestamp(slot[2].trim()),
+      endsAt: normalizeTimestamp(slot[3].trim()),
+    };
     return {
       code: "SLOT_CONFLICT",
       conflict,
